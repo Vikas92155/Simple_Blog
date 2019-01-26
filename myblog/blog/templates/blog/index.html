@@ -1,0 +1,32 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'blog/style.css' %}">
+<h1>MY BLOG</h1>
+{% if latest_post_list %}
+	{% for post in latest_post_list %}
+
+<h2>Post</h2>
+<p>{{ post.post_text }}</a></p>
+
+<h2>Comments</h2>
+{% for comment in post.comment_set.all %}
+
+<p>{{comment.comment_text}}</p>
+{% endfor %}
+<form action="{% url 'blog:addcomment' post.id%}" method="post">
+{% csrf_token %}
+    <input type="text" name="comment" id="comment{{ forloop.counter }}" value="{{ comment_text }}">
+
+<input type="submit" value="Add Comment">
+</form>
+<hr>
+
+	{% endfor %}
+{% else %}
+	<p>No posts are available.</p>
+{% endif %}
+
+
+
+
+
